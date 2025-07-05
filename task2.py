@@ -1,13 +1,16 @@
 import os
 import pandas as pd
 
+DIRECTORY = 'data'
+OUTPUT_FILE = 'tabulated_sales.csv'
+
 def tabulate_sales(data : str):
     # List to hold csv entries
     entries = []
 
     # Loop through directory and read information if it's a csv
     for filename in os.listdir(data):
-        if filename.endswith(".csv"):
+        if filename.endswith('.csv'):
             # Create a dataframe from the given file and append to the entries list
             entry = pd.read_csv(os.path.join(data, filename))
             entries.append(entry)
@@ -23,17 +26,15 @@ def tabulate_sales(data : str):
 
     # Cull the product, quantity and price columns from the data frame and rearrange in desired format
     # product | quantity | price | date | region | sales ==> date | region | sales
-    df = df.drop(columns=["product", "quantity", "price"])
+    df = df.drop(columns=['product', 'quantity', 'price'])
     # date | region | sales ==> sales | date | region
     df = df.iloc[:, [2,0,1]]
 
     # Covert dataframe into output csv
-    out = "tabulated_sales.csv"
-    df.to_csv(out, index=False)
+    df.to_csv(OUTPUT_FILE, index=False)
     pass
 
 if __name__ == '__main__':
-    directory = "data"
-    tabulate_sales(directory)
+    tabulate_sales(DIRECTORY)
 
 
